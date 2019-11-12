@@ -14,14 +14,16 @@ public class App {
         UserRepository userRepository = context.getBean(UserRepository.class);
 
         // Lấy ra toàn bộ user trong db
-        userRepository.findAll()
-                .forEach(System.out::println);
-
+        System.out.println("User có Atk = 29: ");
+        userRepository.findAllByAtk(29).forEach(System.out::println);
+        System.out.println("User có Hp = 10: ");
+        userRepository.findAllByHp(10).forEach(System.out::println);
+        userRepository.findAll().forEach(System.out::println);
         // Lưu user xuống database
         User user = userRepository.save(new User());
         // Khi lưu xong, nó trả về User đã lưu kèm theo Id.
         System.out.println("User vừa lưu có ID: " + user.getId());
-        long userId = user.getId();
+        Long userId = user.getId();
         // Cập nhật user.
         user.setAgi(100);
         // Update user
