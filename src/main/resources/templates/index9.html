@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Moon</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!--css-->
+    <link th:href="@{/CSS/bootstrap.css}" rel="stylesheet" />
+
+    <!--js-->
+    <script th:src="@{/JS/bootstrap.js}"></script>
+
+</head>
+<body>
+<h1 th:utext="#{moon.hello}"></h1>
+<a th:href="@{/profile}" class="btn btn-success">Moon Profile</a>
+</body>
+
+</html>
