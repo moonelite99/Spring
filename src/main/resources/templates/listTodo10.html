@@ -13,7 +13,7 @@
     <script th:src="@{/js/bootstrap.js}"></script>
 </head>
 <body>
-<h1 th:text="#{moon.value.listTodo} + ':'"></h1>
+<h1>Danh sách việc cần làm:</h1>
 
 
 <ul>
@@ -24,7 +24,7 @@
     </li>
 </ul>
 
-<a th:href="@{/addTodo}" th:text="#{moon.value.addTodo}" class="btn btn-success"></a>
+<a th:href="@{/addTodo}" class="btn btn-success"> + Thêm công việc</a>
 </body>
 
 </html>

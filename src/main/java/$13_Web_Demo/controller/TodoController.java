@@ -1,5 +1,8 @@
-package $10_RequestMapping;
+package $13_Web_Demo.controller;
 
+import $13_Web_Demo.model.Todo;
+import $13_Web_Demo.service.TodoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,42 +10,40 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Optional;
 
 @Controller
-public class WebController {
-    // Sử dụng tạm List để chứa danh sách công việc
-    // Thay cho Database.
-    // Chỉ dùng cách này khi DEMO ^^
-    List<Todo> todoList = new CopyOnWriteArrayList<>();
+public class TodoController {
+
+    @Autowired
+    private TodoService todoService;
 
     /*
-        @RequestParam dùng để đánh dấu một biến là request param trong request gửi lên server.
-        Nó sẽ gán dữ liệu của param-name tương ứng vào biến
+    @RequestParam dùng để đánh dấu một biến là request param trong request gửi lên server.
+    Nó sẽ gán dữ liệu của param-name tương ứng vào biến
      */
     @GetMapping("/listTodo")
     public String index(Model model, @RequestParam(value = "limit", required = false) Integer limit) {
         // Trả về đối tượng todoList.
-        // Nếu người dùng gửi lên param limit thì trả về sublist của todoList
-        model.addAttribute("todoList", limit != null ? todoList.subList(0, limit) : todoList);
-
+        model.addAttribute("todoList", todoService.findAll(limit));
         // Trả về template "listTodo10.html"
         return "listTodo";
     }
+
     @GetMapping("/addTodo")
     public String addTodo(Model model) {
-        // Thêm mới một đối tượng Todo vào model
         model.addAttribute("todo", new Todo());
-        // Trả về template addTodo.html
         return "addTodo";
     }
+
     /*
     @ModelAttribute đánh dấu đối tượng Todo được gửi lên bởi Form Request
      */
     @PostMapping("/addTodo")
     public String addTodo(@ModelAttribute Todo todo) {
-        todoList.add(todo);
-        return "success";
+        return Optional.ofNullable(todoService.add(todo))
+                .map(t -> "success") // Trả về success nếu save thành công
+                .orElse("failed"); // Trả về failed nếu không thành công
+
     }
 }
